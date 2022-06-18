@@ -1,38 +1,29 @@
+var list_Movies = [];
+var counter = 0;
 
-// const moviesList = [];
-
-// const getMovies = async () => {
-//   let page = 1;
-//   let API_KEY = 'a7e684d8'
-//   while (page <= 3) {
-//     const res = await fetch(
-//       `https://www.omdbapi.com/?apikey=${API_KEY}&s=*&type=movie&page=${page}`
-//     );
-//     const movies = await res.json();
-//     movies.Search.forEach((movie) => moviesList.push(movie));
-//     page++;
-//   }
-//   console.log({ moviesList });
-// };
-
-// getMovies();
-// api url
-const api_url =
-	//"https://www.omdbapi.com/?i=tt3896198&apikey=a7e684d8";
-    "http://www.omdbapi.com/?apikey=a7e684d8&s=*&page=1"
-
-// Defining async function
-async function getapi(url) {
-	
-	// Storing response
-	const response = await fetch(url);
-	
-	// Storing data in form of JSON
-	var data = await response.json();
-    console.log(data);
+function gettingMovies(){
+	async function getapi(url) {
+		const response = await fetch(url);
+		var data = await response.json();
+		for (var i = 0; i < 10; i++) {
+			list_Movies.push(data.Search[i].Title)
+		}	
+		counter++;
+		if (counter == 5){
+			var text = " ";
+			for (var j = 0; j < list_Movies.length; j++){
+				text += (j+1) + " " + list_Movies[j] + "\n";
+			}
+			document.getElementById("ShowMovies").innerHTML = text;
+		}
+	}
+	for ( let page = 1; page < 6; page++){
+		var api_url =
+		"http://www.omdbapi.com/?apikey=a7e684d8&s=ins&page=" + `${page}`;
+		getapi(api_url)
+	}
 }
 
-getapi(api_url)
 
 
 
